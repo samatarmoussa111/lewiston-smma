@@ -1,91 +1,93 @@
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
-import { cn } from '@/lib/utils';
+"use client";
 
-export function Navbar() {
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "./ui/button";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { label: "Home", href: "#" },
+  { label: "Services", href: "#services" },
+  { label: "Process", href: "#process" },
+  { label: "Portfolio", href: "#portfolio" },
+  { label: "Contact", href: "#contact" },
+];
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20);
     };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const navItems = ['Services', 'Process', 'Portfolio', 'Contact'];
-
-  const scrollToSection = (section: string) => {
-    const element = document.getElementById(section.toLowerCase());
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
-  };
 
   return (
     <nav
       className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+        "fixed top-0 w-full z-50 transition-all duration-300",
         isScrolled
-          ? 'bg-background/80 backdrop-blur-md shadow-md py-4'
-          : 'bg-transparent py-6'
+          ? "bg-background/95 backdrop-blur-md shadow-md"
+          : "bg-background/95 sm:bg-transparent"
       )}
     >
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex items-center justify-between">
-          <a href="#" className="text-xl font-bold">
-            Agency<span className="text-primary">.new</span>
-          </a>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex-shrink-0 font-bold text-xl">DigitalPro</div>
 
-          {/* Desktop Menu */}
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item)}
-                className="text-sm font-medium hover:text-primary transition-colors"
+              <a
+                key={item.label}
+                href={item.href}
+                className="text-muted-foreground hover:text-primary transition-colors"
               >
-                {item}
-              </button>
+                {item.label}
+              </a>
             ))}
-            <Button size="sm">Get Started</Button>
+            <Button>Get Started</Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            <Menu className="h-6 w-6" />
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        <div
-          className={cn(
-            'md:hidden absolute left-0 right-0 top-full bg-background/95 backdrop-blur-md shadow-md transition-all duration-300 overflow-hidden',
-            isMobileMenuOpen ? 'max-h-64' : 'max-h-0'
-          )}
-        >
-          <div className="px-4 py-4 space-y-4">
-            {navItems.map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item)}
-                className="block w-full text-left py-2 text-sm font-medium hover:text-primary transition-colors"
-              >
-                {item}
-              </button>
-            ))}
-            <Button size="sm" className="w-full">
-              Get Started
+          {/* Mobile Navigation Button */}
+          <div className="md:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {isOpen && (
+          <div className="md:hidden">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navItems.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="block px-3 py-2 text-base font-medium text-muted-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.label}
+                </a>
+              ))}
+              <div className="pt-2">
+                <Button className="w-full">Get Started</Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </nav>
   );

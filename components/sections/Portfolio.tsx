@@ -1,68 +1,118 @@
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+"use client";
 
-export function Portfolio() {
-  const testimonials = [
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+export default function Portfolio({ id }: { id?: string }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const projects = [
     {
-      name: "Sarah Johnson",
-      role: "Restaurant Owner",
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-      quote: "Our online presence has transformed since working with them. Highly recommended!",
+      image: "/portfolio-1.png",
+      title: "Local Restaurant Website",
+      description: "Increased online reservations by 50%",
     },
     {
-      name: "Michael Chen",
-      role: "Dental Clinic",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d",
-      quote: "Professional team that delivered exactly what we needed. Outstanding results!",
+      image: "/portfolio-2.png",
+      title: "Boutique Shop E-commerce",
+      description: "Boosted online sales by 75%",
     },
     {
-      name: "Emily Davis",
-      role: "Boutique Shop",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80",
-      quote: "The best investment we've made for our business. Sales have increased significantly.",
+      image: "/portfolio-3.png",
+      title: "Law Firm Web Presence",
+      description: "Improved lead generation by 60%",
     },
   ];
 
+  const testimonials = [
+    {
+      name: "John Doe",
+      role: "Restaurant Owner",
+      quote:
+        "Their work transformed our online presence and boosted our business significantly!",
+    },
+    {
+      name: "Jane Smith",
+      role: "Boutique Owner",
+      quote:
+        "The e-commerce solution they provided has been a game-changer for our shop.",
+    },
+    {
+      name: "Mike Johnson",
+      role: "Attorney",
+      quote: "Professional, responsive, and delivered beyond our expectations.",
+    },
+  ];
+
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % projects.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentIndex(
+      (prevIndex) => (prevIndex - 1 + projects.length) % projects.length
+    );
+  };
+
   return (
-    <section id="portfolio" className="py-20 px-4">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-16 fade-in">
+    <section id={id} className="w-full py-20 px-4 bg-background">
+      <div className="max-w-6xl mx-auto">
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
           Our Clients Trust Us
         </h2>
-        <Carousel className="fade-in">
-          <CarouselContent>
-            {testimonials.map((testimonial, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <Card className="border-0 bg-muted/50">
-                  <CardContent className="p-6">
-                    <div className="mb-4">
-                      <Avatar className="h-16 w-16 mx-auto">
-                        <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                        <AvatarFallback>{testimonial.name[0]}</AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <blockquote className="mb-4 text-muted-foreground">
-                      "{testimonial.quote}"
-                    </blockquote>
-                    <div>
-                      <div className="font-semibold">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">{testimonial.role}</div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
+        <div className="relative">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex flex-col lg:flex-row items-center gap-8"
+            >
+              <img
+                src={projects[currentIndex].image}
+                alt={projects[currentIndex].title}
+                className="w-full lg:w-1/2 rounded-lg shadow-lg"
+              />
+              <div className="w-full lg:w-1/2">
+                <h3 className="text-2xl font-semibold mb-2">
+                  {projects[currentIndex].title}
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  {projects[currentIndex].description}
+                </p>
+                <blockquote className="border-l-4 border-primary pl-4 italic">
+                  <p className="max-w-md">
+                    &quot;{testimonials[currentIndex].quote}&quot;
+                  </p>
+                  <footer className="mt-2 text-sm">
+                    - {testimonials[currentIndex].name},{" "}
+                    {testimonials[currentIndex].role}
+                  </footer>
+                </blockquote>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute top-1/2 left-4 transform -translate-y-1/2"
+            onClick={prevSlide}
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute top-1/2 right-4 transform -translate-y-1/2"
+            onClick={nextSlide}
+          >
+            <ChevronRight className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </section>
   );

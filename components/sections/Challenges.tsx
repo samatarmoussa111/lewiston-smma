@@ -50,7 +50,7 @@ const itemVariants = {
 
 export function Challenges() {
   return (
-    <section id="challenges" className="py-24 relative overflow-hidden">
+    <section id="challenges" className="py-20 relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-10" />
       <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent -z-10" />

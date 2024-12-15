@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/sections/Hero";
 import { Challenges } from "@/components/sections/Challenges";
 import { Services } from "@/components/sections/Services";
 import { WhyChooseUs } from "@/components/sections/WhyChooseUs";
 import { Process } from "@/components/sections/process/Process";
-import { Portfolio } from "@/components/sections/Portfolio";
 import { SpecialOffer } from "@/components/sections/SpecialOffer";
 import { Footer } from "@/components/sections/Footer";
+import Navbar from "@/components/Navbar";
+import Portfolio from "@/components/sections/Portfolio";
 
 function Home() {
   useEffect(() => {
@@ -37,7 +37,7 @@ function Home() {
       <Services />
       <WhyChooseUs />
       <Process />
-      <Portfolio />
+      <Portfolio id="portfolio" />
       <SpecialOffer />
       <Footer />
     </div>

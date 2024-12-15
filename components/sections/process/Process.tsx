@@ -26,7 +26,7 @@ const itemVariants = {
 
 export function Process() {
   return (
-    <section id="process" className="py-24 relative overflow-hidden">
+    <section id="process" className="py-20 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 bg-grid-white/[0.02] -z-10" />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/50 to-background -z-10" />
