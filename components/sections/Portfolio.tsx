@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function Portfolio({ id }: { id?: string }) {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -72,10 +73,12 @@ export default function Portfolio({ id }: { id?: string }) {
               transition={{ duration: 0.5 }}
               className="flex flex-col lg:flex-row items-center gap-8"
             >
-              <img
+              <Image
                 src={projects[currentIndex].image}
                 alt={projects[currentIndex].title}
                 className="w-full lg:w-1/2 rounded-lg shadow-lg"
+                width={500}
+                height={500}
               />
               <div className="w-full lg:w-1/2">
                 <h3 className="text-2xl font-semibold mb-2">
